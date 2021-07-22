@@ -1,49 +1,52 @@
-#include <bits/stdc++.h>
-#define fastIO() ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#include<iostream>
+#include<string>
+#include<vector>
+#include<cmath>
+#include<algorithm>
+#include<stack>
+#include<queue>
+#include<map>
+#include<set>
 #define ll long long
-#define ull unsigned long long
-#define fori(i,a,b) for (ll i = a; i < b; i++)
-#define forr(i,a,b) for (ll i = a - 1; i >= b; i--)
-#define pb push_back
-#define mp make_pair
-#define F first
-#define S second
 using namespace std;
- 
-const ll mod = 1e9 + 7;
-const ll oo = 1e6 + 5;
- 
-int n;
-int a[] = {2, 3, 5, 7, 9, 11, 13, 17, 19, 23, 29, 31};
-ll res;
- 
-void Try(int i, ll ans, ll dem){
-	if(dem > n) return;
-	if(dem == n){
-		res = min(res, ans);
-	}
-	for(int j = 1; ; j ++){
-		if(ans * a[i] > res) return;
-		ans *= a[i];
-		Try(i + 1, ans, dem *(j + 1));
-	}
+const int oo = 1e9;
+int s, t;
+void bfs(){
+    queue<pair<int, int> > q;
+    q.push(make_pair(s, 0));
+    set<int> dd;
+    dd.insert(s);
+    while(!q.empty()){
+        int u = q.front().first;
+        int way = q.front().second;
+        q.pop();
+        if(u-1==t || u*2==t){
+            cout<<way+1<<endl;
+            return;
+        }
+        if(u==t){
+            cout<<way<<endl;
+            return;
+        }
+        if(u*2 <= t*2 && dd.count(u*2)==0){
+            q.push(make_pair(u*2, way+1));
+            dd.insert(u*2);
+        }
+        if(u-1>0 && dd.count(u-1)==0){
+            q.push(make_pair(u-1, way+1));
+            dd.insert(u-1);
+        }
+    }
 }
- 
-void xl (){
-	cin >> n; res = 1e18 + 5;
-	Try(0, 1, 1);
-	cout << res;
- 
+void Run()
+{
+    cin>>s>>t;
+    bfs();
 }
- 
-int main(){
-	fastIO();
-	int T; 
-	//T = 1;
-	cin >> T;
-	//cin.ignore();
-	while (T -- ){
-		xl();
-		cout << "\n";
-	}
+int main()
+{
+    int T=1;
+    cin>>T;
+    while(T--) Run();
+    return 0;
 }
